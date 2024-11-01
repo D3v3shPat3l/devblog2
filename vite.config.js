@@ -8,6 +8,7 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/js/app.js',
             ],
+            output: 'public/build', // Ensure this matches your setup
             refresh: true,
         }),
     ],
