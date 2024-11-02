@@ -1,16 +1,29 @@
-<x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-        {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-cover bg-center h-screen flex items-center justify-center" style="background-image: url('/images/background.jpg');">
 
-    @if (session('status') == 'verification-link-sent')
-        <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
-            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
+    <!-- Form Container -->
+    <div class="bg-white bg-opacity-90 p-8 rounded-lg shadow-lg w-full max-w-md text-center">
+
+        <!-- Verification Instructions -->
+        <div class="mb-4 text-sm text-gray-600">
+            {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
         </div>
-    @endif
 
-    <div class="mt-4 flex items-center justify-between">
-        <form method="POST" action="{{ route('verification.send') }}">
+        @if (session('status') == 'verification-link-sent')
+            <div class="mb-4 font-medium text-sm text-green-600">
+                {{ __('A new verification link has been sent to the email address you provided during registration.') }}
+            </div>
+        @endif
+
+        <!-- Resend Verification Email Form -->
+        <form method="POST" action="{{ route('verification.send') }}" class="mt-4">
             @csrf
 
             <div>
@@ -20,12 +33,15 @@
             </div>
         </form>
 
-        <form method="POST" action="{{ route('logout') }}">
+        <!-- Logout Form -->
+        <form method="POST" action="{{ route('logout') }}" class="mt-4">
             @csrf
 
-            <button type="submit" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
+            <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 {{ __('Log Out') }}
             </button>
         </form>
     </div>
-</x-guest-layout>
+
+</body>
+</html>
