@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\PasswordController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\UserController;
 
 // Welcome page route
 Route::get('/', function () {
@@ -37,6 +38,10 @@ Route::post('/forgot-password', [PasswordController::class, 'email'])->name('pas
 
 // Logout route
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+
+// User route
+Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
 
 // Include additional auth routes
 require __DIR__.'/auth.php';

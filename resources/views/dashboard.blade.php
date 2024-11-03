@@ -43,7 +43,11 @@
                 <div class="bg-gray-100 p-4 rounded-lg shadow mb-6">
                     <h2 class="text-xl font-semibold text-gray-800">{{ $post->title }}</h2>
                     <p class="text-gray-700">{{ $post->content }}</p>
-                    <p class="text-sm text-gray-500 mt-2">Posted by {{ $post->user->name }} on {{ $post->created_at->format('M d, Y') }}</p>
+                    <p class="text-sm text-gray-500 mt-2">
+                        Posted by 
+                        <a href="{{ route('users.show', $post->user->id) }}" class="text-indigo-600 hover:underline">{{ $post->user->name }}</a> 
+                        on {{ $post->created_at->format('M d, Y') }}
+                    </p>
 
                     <!-- Comments Section -->
                     <div class="mt-4">
@@ -51,7 +55,10 @@
                         @foreach($post->comments as $comment)
                             <div class="bg-white p-2 mt-2 rounded-lg shadow-sm">
                                 <p class="text-gray-700">{{ $comment->content }}</p>
-                                <p class="text-xs text-gray-500">Commented by {{ $comment->user->name }} on {{ $comment->created_at->format('M d, Y') }}</p>
+                                <p class="text-xs text-gray-500">Commented by 
+                                    <a href="{{ route('users.show', $comment->user->id) }}" class="text-indigo-600 hover:underline">{{ $comment->user->name }}</a> 
+                                    on {{ $comment->created_at->format('M d, Y') }}
+                                </p>
                             </div>
                         @endforeach
                     </div>
