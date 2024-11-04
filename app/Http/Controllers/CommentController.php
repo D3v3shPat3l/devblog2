@@ -26,4 +26,14 @@ class CommentController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Comment added successfully');
     }
+
+    public function destroy(Comment $comment)
+    {
+        if (Auth::user()->id === $comment->user_id || Auth::user()->hasRole('admin')) {
+            $comment->delete(); 
+            return redirect()->back()->with('success', 'Comment deleted successfully.');
+        }
+
+        return redirect()->back()->with('error', 'You are not authorized to delete this comment.');
+    }
 }
