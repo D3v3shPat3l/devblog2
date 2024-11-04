@@ -56,4 +56,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
+
+    // Relationship with Roles model
+    public function roles()
+    {
+    return $this->belongsToMany(Role::class);
+    }
+
+    public function hasRole($roleName)
+    {
+    return $this->roles()->where('name', $roleName)->exists();
+    }
 }

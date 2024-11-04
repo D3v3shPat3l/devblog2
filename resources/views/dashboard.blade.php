@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-cover bg-center flex flex-col items-center min-h-screen" style="background-image: url('/images/background.jpg');">
-    
+
     <!-- Logout Button -->
     <div class="w-full max-w-2xl flex justify-end p-4">
         <form method="POST" action="{{ route('logout') }}">
@@ -71,6 +71,22 @@
                             Comment
                         </button>
                     </form>
+
+                    <!-- Edit and Delete Buttons (only for admin or the original author) -->
+                    @if(auth()->user()->hasRole('admin') || auth()->user()->id == $post->user_id)
+                        <div class="flex space-x-2 mt-4">
+                            <a href="{{ route('posts.edit', $post->id) }}" class="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">
+                                Edit
+                            </a>
+                            <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+                    @endif
                 </div>
             @endforeach
         </div>
