@@ -11,7 +11,7 @@ class PostController extends Controller
     // Show the dashboard page with all posts and comments
     public function index()
     {
-        $posts = Post::with(['comments.user', 'user'])->latest()->get();
+        $posts = Post::with(['comments.user', 'user'])->latest()->paginate(3);
         return view('dashboard', compact('posts'));
     }
 

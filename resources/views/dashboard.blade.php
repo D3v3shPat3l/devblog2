@@ -101,6 +101,11 @@
                 </div>
             @endforeach
         </div>
+
+        <!-- Pagination Links -->
+        <div class="mt-6">
+            {{ $posts->links() }} 
+        </div>
     </div>
 </body>
 </html>
