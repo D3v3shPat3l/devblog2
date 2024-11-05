@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\NewCommentNotification;
 
 class CommentController extends Controller
 {
@@ -18,19 +19,25 @@ class CommentController extends Controller
 
         $post = Post::findOrFail($postId);
 
-        Comment::create([
+        $comment = Comment::create([
             'post_id' => $post->id,
             'user_id' => Auth::id(),
             'content' => $request->content,
         ]);
 
+        // Notify the post owner
+        if ($post->user_id !== Auth::id()) {
+            $post->user->notify(new NewCommentNotification($comment));
+        }
+
         return redirect()->route('dashboard')->with('success', 'Comment added successfully');
     }
 
+    // Delete a comment
     public function destroy(Comment $comment)
     {
         if (Auth::user()->id === $comment->user_id || Auth::user()->hasRole('admin')) {
-            $comment->delete(); 
+            $comment->delete();
             return redirect()->back()->with('success', 'Comment deleted successfully.');
         }
 

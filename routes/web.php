@@ -51,5 +51,11 @@ Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show')
 Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
+// Notification route
+Route::post('/notifications/mark-as-read', function () {
+    Auth::user()->unreadNotifications->markAsRead();
+    return redirect()->back();
+})->name('notifications.markAsRead'); 
+
 // Include additional auth routes
 require __DIR__.'/auth.php';

@@ -8,8 +8,37 @@
 </head>
 <body class="bg-cover bg-center flex flex-col items-center min-h-screen" style="background-image: url('/images/background.jpg');">
 
-    <!-- Logout Button -->
-    <div class="w-full max-w-2xl flex justify-end p-4">
+    <!-- Logout Button and Notifications -->
+    <div class="w-full max-w-2xl flex justify-between p-4">
+        <!-- Notifications Dropdown -->
+        <div class="relative">
+            <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700" id="notificationDropdown">
+                Notifications
+                @if(auth()->user()->unreadNotifications->count())
+                    <span class="bg-red-500 text-white rounded-full px-2">{{ auth()->user()->unreadNotifications->count() }}</span>
+                @endif
+            </button>
+            <div class="absolute right-0 mt-2 w-64 bg-white border rounded-lg shadow-lg" style="display: none;" id="notificationMenu">
+                <div class="py-2">
+                    @forelse(auth()->user()->unreadNotifications as $notification)
+                        <div class="px-4 py-2 border-b">
+                            <p><strong>{{ $notification->data['commenter_name'] }}</strong> commented on <strong>{{ $notification->data['post_title'] }}</strong>:</p>
+                            <p>{{ $notification->data['comment_content'] }}</p>
+                            <p class="text-xs text-gray-500">{{ $notification->created_at->diffForHumans() }}</p>
+                        </div>
+                    @empty
+                        <p class="px-4 py-2 text-gray-600">No new notifications</p>
+                    @endforelse
+                </div>
+                <!-- Mark all as read button -->
+                <form action="{{ route('notifications.markAsRead') }}" method="POST" class="p-2 text-center">
+                    @csrf
+                    <button type="submit" class="text-blue-600 hover:underline">Mark all as read</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Logout Button -->
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
@@ -107,5 +136,12 @@
             {{ $posts->links() }} 
         </div>
     </div>
+
+    <script>
+        document.getElementById('notificationDropdown').addEventListener('click', function() {
+            var menu = document.getElementById('notificationMenu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        });
+    </script>
 </body>
 </html>
