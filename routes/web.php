@@ -8,6 +8,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\LikeController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -56,6 +57,9 @@ Route::post('/notifications/mark-as-read', function () {
     Auth::user()->unreadNotifications->markAsRead();
     return redirect()->back();
 })->name('notifications.markAsRead'); 
+
+//Like route
+Route::post('/posts/{post}/like', [LikeController::class, 'toggleLike'])->name('posts.like');
 
 // Include additional auth routes
 require __DIR__.'/auth.php';

@@ -65,6 +65,11 @@ class User extends Authenticatable
 
     public function hasRole($roleName)
     {
-    return $this->roles()->where('name', $roleName)->exists();
+        return $this->roles()->where('name', $roleName)->exists();
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
     }
 }
