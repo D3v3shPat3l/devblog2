@@ -21,12 +21,19 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string|max:500',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+        }
 
         Post::create([
             'user_id' => Auth::id(),
             'title' => $request->title,
             'content' => $request->content,
+            'image' => $imagePath,
         ]);
 
         return redirect()->route('dashboard')->with('success', 'Post created successfully');
@@ -46,24 +53,24 @@ class PostController extends Controller
     // Update the specified post in storage
     public function update(Request $request, Post $post)
     {
-        // Validate the request
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string|max:500',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Check if the user is authorized to update the post
-        if (Auth::id() !== $post->user_id && !Auth::user()->hasRole('admin')) {
-            return redirect()->route('dashboard')->with('error', 'Unauthorized action.');
+        $imagePath = $post->image;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
         }
 
-        // Update the post
         $post->update([
             'title' => $request->title,
             'content' => $request->content,
+            'image' => $imagePath,
         ]);
 
-        return redirect()->route('dashboard')->with('success', 'Post updated successfully.');
+        return redirect()->route('dashboard')->with('success', 'Post updated successfully');
     }
 
     // Delete the specified post

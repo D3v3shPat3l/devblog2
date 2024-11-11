@@ -57,13 +57,16 @@
         <p class="text-gray-600 text-center mb-6">Share your thoughts and engage with the community!</p>
 
         <!-- Post Creation Form -->
-        <form action="{{ route('posts.store') }}" method="POST" class="mb-6">
+        <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data" class="mb-6">
             @csrf
             <div class="mb-4">
                 <input type="text" name="title" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Post title" required>
             </div>
             <div class="mb-4">
                 <textarea name="content" rows="3" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="What's on your mind?" required></textarea>
+            </div>
+            <div class="mb-4">
+                <input type="file" name="image" accept="image/*" class="w-full p-2 border border-gray-300 rounded-lg">
             </div>
             <button type="submit" class="w-full py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
                 Post
@@ -75,6 +78,9 @@
             @foreach($posts as $post)
                 <div class="bg-gray-100 p-4 rounded-lg shadow mb-6">
                     <h2 class="text-xl font-semibold text-gray-800">{{ $post->title }}</h2>
+                    @if($post->image)
+                        <img src="{{ asset('storage/' . $post->image) }}" alt="Post Image" class="w-full h-64 object-cover mt-2 rounded-lg">
+                    @endif
                     <p class="text-gray-700">{{ $post->content }}</p>
                     <p class="text-sm text-gray-500 mt-2">
                         Posted by 
