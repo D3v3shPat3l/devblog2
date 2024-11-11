@@ -22,8 +22,12 @@
                 <div class="py-2">
                     @forelse(auth()->user()->unreadNotifications as $notification)
                         <div class="px-4 py-2 border-b">
-                            <p><strong>{{ $notification->data['commenter_name'] }}</strong> commented on <strong>{{ $notification->data['post_title'] }}</strong>:</p>
-                            <p>{{ $notification->data['comment_content'] }}</p>
+                            @if($notification->type === 'App\Notifications\PostLiked')
+                                <p><strong>{{ $notification->data['liker_name'] }}</strong> liked your post <strong>{{ $notification->data['post_title'] }}</strong>.</p>
+                            @elseif($notification->type === 'App\Notifications\PostCommented')
+                                <p><strong>{{ $notification->data['commenter_name'] }}</strong> commented on <strong>{{ $notification->data['post_title'] }}</strong>:</p>
+                                <p>{{ $notification->data['comment_content'] }}</p>
+                            @endif
                             <p class="text-xs text-gray-500">{{ $notification->created_at->diffForHumans() }}</p>
                         </div>
                     @empty
