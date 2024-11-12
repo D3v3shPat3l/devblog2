@@ -21,6 +21,11 @@
                     <p class="text-gray-700">{{ $post->content }}</p>
                     <p class="text-sm text-gray-500 mt-2">Posted on {{ $post->created_at->format('M d, Y') }}</p>
 
+                    <!-- Display Post Image -->
+                    @if($post->image)
+                        <img src="{{ asset('storage/' . $post->image) }}" alt="Post Image" class="w-full h-64 object-cover mt-2 rounded-lg">
+                    @endif
+
                     <!-- Edit and Delete Buttons -->
                     @if(auth()->user()->id === $post->user_id || auth()->user()->hasRole('admin'))
                         <div class="mt-4 flex space-x-2">
