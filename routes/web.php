@@ -26,8 +26,8 @@ Route::middleware('auth')->group(function () {
 
     // Post management
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
-    Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit'); // Route to edit post
-    Route::patch('/posts/{post}', [PostController::class, 'update'])->name('posts.update'); // Route to update post
+    Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit'); 
+    Route::patch('/posts/{post}', [PostController::class, 'update'])->name('posts.update'); 
 
     // Comment management
     Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
