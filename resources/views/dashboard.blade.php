@@ -56,7 +56,7 @@
 
     <!-- Main Dashboard Content -->
     <div class="bg-white bg-opacity-90 p-8 rounded-lg shadow-lg max-w-2xl w-full mt-10">
-        <h1 class="text-3xl font-bold text-gray-800 mb-4 text-center">Welcome to Your Dashboard</h1>
+        <h1 class="text-3xl font-bold text-gray-800 mb-4 text-center">Welcome to Your Dashboard, {{ auth()->user()->name }}!</h1>
         <p class="text-gray-600 text-center mb-6">Share your thoughts and engage with the community!</p>
 
         <!-- Post Creation Form -->
