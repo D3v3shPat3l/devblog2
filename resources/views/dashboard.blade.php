@@ -64,12 +64,21 @@
             @csrf
             <div class="mb-4">
                 <input type="text" name="title" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Post title" required>
+                @error('title')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
             <div class="mb-4">
                 <textarea name="content" rows="3" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="What's on your mind?" required></textarea>
+                @error('content')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
             <div class="mb-4">
                 <input type="file" name="image" accept="image/*" class="w-full p-2 border border-gray-300 rounded-lg">
+                @error('image')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
             <button type="submit" class="w-full py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
                 Post
