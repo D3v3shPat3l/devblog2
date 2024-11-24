@@ -45,13 +45,13 @@
                 <!-- Edit and Delete Buttons -->
                 <div class="mt-4 flex space-x-2 role-dependent">
                     @if(auth()->user()->id === $post->user_id || auth()->user()->hasRole('admin'))
-                        <a href="{{ route('posts.edit', $post->id) }}" class="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 edit-delete">
+                        <a href="{{ route('posts.edit', $post->id) }}" class="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 edit-button">
                             Edit
                         </a>
                         <form action="{{ route('posts.destroy', $post->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this post?');">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 edit-delete">
+                            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 delete-button">
                                 Delete
                             </button>
                         </form>
@@ -113,12 +113,22 @@
         const dropdown = document.getElementById('rolesDropdown');
         dropdown.classList.add('hidden'); // Close dropdown after selection
 
-        // Hide or show Edit/Delete buttons based on role
-        const editDeleteButtons = document.querySelectorAll('.edit-delete');
-        if (role === 'Viewer') {
-            editDeleteButtons.forEach(button => button.classList.add('hidden'));
+        // Hide or show buttons based on role
+        const editButtons = document.querySelectorAll('.edit-button');
+        const deleteButtons = document.querySelectorAll('.delete-button');
+
+        if (role === 'Editor') {
+            // Show only Edit buttons
+            editButtons.forEach(button => button.classList.remove('hidden'));
+            deleteButtons.forEach(button => button.classList.add('hidden'));
+        } else if (role === 'Viewer') {
+            // Hide all Edit and Delete buttons
+            editButtons.forEach(button => button.classList.add('hidden'));
+            deleteButtons.forEach(button => button.classList.add('hidden'));
         } else {
-            editDeleteButtons.forEach(button => button.classList.remove('hidden'));
+            // Show both Edit and Delete buttons for Admin or other roles
+            editButtons.forEach(button => button.classList.remove('hidden'));
+            deleteButtons.forEach(button => button.classList.remove('hidden'));
         }
     }
 
